@@ -10,7 +10,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>My name is {name}</Text>
+      <Text style={styles.text}>My name is {name}</Text>
       <View style={styles.buttonStyle}>
         <Button title='Update State' onPress={updateState} />
       </View>
@@ -28,5 +28,10 @@ const styles = StyleSheet.create({
 
   buttonStyle: {
     margin: 30,
+    width: 200,
+  },
+
+  text: {
+    fontSize: 30,
   }
 });
