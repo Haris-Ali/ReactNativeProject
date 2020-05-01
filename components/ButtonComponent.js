@@ -16,7 +16,7 @@ const CustomButton = (props) => {
 
 const styles = StyleSheet.create({
     buttonContainer: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
         padding: 10,
         borderRadius: 50,
     },

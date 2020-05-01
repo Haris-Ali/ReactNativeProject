@@ -5,10 +5,24 @@ import CustomButton from './components/ButtonComponent';
 export default function App() {
   const [getText, setText] = useState('')
   const [getList, setList] = useState([])
+  const [getKey, setKey] = useState('')
+  const [getButton, setButton] = useState('ADD')
 
   const addItem = () => {
     if (getText === '') {
       Alert.alert("Cannot add empty item to list")
+    }
+    if (getButton === 'UPDATE') {
+      var list = getList
+      for (let index = 0; index < list.length; index++) {
+        var element = list[index]
+        if (getKey !== '' && element.key === getKey) {
+          element.data = getText
+        }
+      }
+      setKey('')
+      setList(list)
+      setButton('ADD')
     }
     else {
       setList([
@@ -24,8 +38,10 @@ export default function App() {
     setList(newList)
   }
 
-  const displayText = (itemData) => {
-    setText(itemData)
+  const displayText = (item) => {
+    setText(item.data)
+    setButton('UPDATE')
+    setKey(item.key)
   }
 
   return (
@@ -43,7 +59,7 @@ export default function App() {
           value={getText}
         />
         <CustomButton 
-          text="ADD" 
+          text={getButton} 
           color='cornflowerblue' 
           textSize={24} 
           textColor='white' 
@@ -57,10 +73,10 @@ export default function App() {
 
       <ScrollView style={styles.list}>
 
-        {getList.map((item) => 
-          <TouchableOpacity key={item.key} activeOpacity={0.7} onPress={() => displayText(item.data)}>
+        {getList.map((item, index) => 
+          <TouchableOpacity key={item.key} activeOpacity={0.7} onPress={() => displayText(item)}>
             <View style={styles.listItems}>
-              <Text style={styles.listItemsText}>{item.data}</Text>
+              <Text style={styles.listItemsText}>{index + 1}. {item.data}</Text>
               <TouchableOpacity  onPress={() => removeItem(item.key)}>
                 <View style={{backgroundColor: 'black', borderRadius: 50, width: 50}}>
                   <Text style={styles.deleteText}>X</Text>
