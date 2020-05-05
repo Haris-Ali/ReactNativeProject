@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity, Alert, Keyboard } from 'react-native';
+import { 
+  StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity, Alert, Keyboard, TouchableWithoutFeedback 
+} from 'react-native';
 import CustomButton from './components/ButtonComponent';
 import { todoItems } from './constants/onrenderitems';
 
@@ -75,27 +77,31 @@ export default function App() {
   )
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titleText}>TODO LIST</Text>
-      <View style={styles.inputCont}>
-        <TextInput 
-          style={styles.textInput} 
-          placeholder="Enter Item"
-          onChangeText= {text => setText(text)}
-          value={getText}
-        />
-        <CustomButton 
-          text={getButton} 
-          color='cornflowerblue' 
-          textSize={24} 
-          textColor='white' 
-          onPressEvent={addItem} 
-          textFamily='monospace'
-          disabled={getText.length <= 0}
-        />
+    <TouchableWithoutFeedback onPress={() => {
+      Keyboard.dismiss()
+    }} >
+      <View style={styles.container}>
+        <Text style={styles.titleText}>TODO LIST</Text>
+        <View style={styles.inputCont}>
+          <TextInput 
+            style={styles.textInput} 
+            placeholder="Enter Item"
+            onChangeText= {text => setText(text)}
+            value={getText}
+          />
+          <CustomButton 
+            text={getButton} 
+            color='cornflowerblue' 
+            textSize={24} 
+            textColor='white' 
+            onPressEvent={addItem} 
+            textFamily='monospace'
+            disabled={getText.length <= 0}
+          />
+        </View>
+        {getList.length <= 0 ? displayEmptyView : displayScrollView }
       </View>
-      {getList.length <= 0 ? displayEmptyView : displayScrollView }
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -118,7 +124,7 @@ const styles = StyleSheet.create({
     width: '70%',
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: 40,
+    paddingTop: 50,
   },
 
   textInput: {
@@ -134,7 +140,7 @@ const styles = StyleSheet.create({
 
   list: {
     width: '100%',
-    paddingTop: 50,
+    paddingTop: 80,
   },
 
   listItems: {
