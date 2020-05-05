@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity, Alert, Keyboard } from 'react-native';
 import CustomButton from './components/ButtonComponent';
+import { todoItems } from './constants/onrenderitems';
 
 export default function App() {
   const [getText, setText] = useState('')
-  const [getList, setList] = useState([])
+  const [getList, setList] = useState(todoItems)
   const [getKey, setKey] = useState('')
   const [getButton, setButton] = useState('ADD')
 
@@ -23,6 +24,7 @@ export default function App() {
       setKey('')
       setList(list)
       setButton('ADD')
+      setText('')
     }
     else {
       setList([
@@ -30,6 +32,7 @@ export default function App() {
         {key: Math.random().toString(), data: getText}
       ])
       setText('')
+      Keyboard.dismiss()
     }
   }
 
@@ -44,34 +47,8 @@ export default function App() {
     setKey(item.key)
   }
 
-  return (
-
-    <View style={styles.container}>
-
-      <Text style={styles.titleText}>TODO LIST</Text>
-
-      <View style={styles.inputCont}>
-
-        <TextInput 
-          style={styles.textInput} 
-          placeholder="Enter Item"
-          onChangeText= {text => setText(text)}
-          value={getText}
-        />
-        <CustomButton 
-          text={getButton} 
-          color='cornflowerblue' 
-          textSize={24} 
-          textColor='white' 
-          onPressEvent={addItem} 
-          textFamily='monospace'
-        />
-
-      </View>
-
-      <Text style={{fontSize: 24, paddingTop: 20, paddingBottom: 20, fontFamily: 'monospace'}}>{getText}</Text>
-
-      <ScrollView style={styles.list}>
+  const displayScrollView = (
+    <ScrollView style={styles.list}>
 
         {getList.map((item, index) => 
           <TouchableOpacity key={item.key} activeOpacity={0.7} onPress={() => displayText(item)}>
@@ -87,6 +64,37 @@ export default function App() {
         )}
 
       </ScrollView>
+  )
+
+  const displayEmptyView = (
+    <View style={{ paddingTop: 30 }}>
+      <Text style={{fontStyle: "italic", fontSize: 24, color: 'black', fontFamily: 'monospace'}}>
+        You have no todo items
+      </Text>
+    </View>
+  )
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.titleText}>TODO LIST</Text>
+      <View style={styles.inputCont}>
+        <TextInput 
+          style={styles.textInput} 
+          placeholder="Enter Item"
+          onChangeText= {text => setText(text)}
+          value={getText}
+        />
+        <CustomButton 
+          text={getButton} 
+          color='cornflowerblue' 
+          textSize={24} 
+          textColor='white' 
+          onPressEvent={addItem} 
+          textFamily='monospace'
+          disabled={getText.length <= 0}
+        />
+      </View>
+      {getList.length <= 0 ? displayEmptyView : displayScrollView }
     </View>
   );
 }
@@ -100,7 +108,7 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 40,
+    fontSize: 50,
     color: 'gray',
     fontFamily: 'monospace',
   },
@@ -110,7 +118,7 @@ const styles = StyleSheet.create({
     width: '70%',
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: 30,
+    paddingTop: 40,
   },
 
   textInput: {
@@ -126,6 +134,7 @@ const styles = StyleSheet.create({
 
   list: {
     width: '100%',
+    paddingTop: 50,
   },
 
   listItems: {

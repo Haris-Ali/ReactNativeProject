@@ -2,9 +2,12 @@ import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 
 const CustomButton = (props) => {
-    var btnColor = props.color != undefined ? props.color : 'cornflowerblue';
+    if (props.disabled) 
+        var btnColor = 'gray'
+    else
+        var btnColor = props.color != undefined ? props.color : 'cornflowerblue';
     return (
-        <TouchableOpacity activeOpacity={0.7} onPress={props.onPressEvent}>
+        <TouchableOpacity activeOpacity={0.7} onPress={props.onPressEvent} disabled={props.disabled}>
             <View style={{ ...styles.buttonContainer, backgroundColor: btnColor }}>
                 <Text style={{fontSize: props.textSize, color: props.textColor, fontFamily: props.textFamily}}>
                     {props.text}
