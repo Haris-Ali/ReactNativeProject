@@ -82,6 +82,12 @@ export default function App() {
     }} >
       <View style={styles.container}>
         <Text style={styles.titleText}>TODO LIST</Text>
+        <View style={{flexDirection: 'row'}}>
+          <View style={{...styles.headingBottom, backgroundColor: 'rgb(0, 36, 63)'}}></View>
+          <View style={{...styles.headingBottom, backgroundColor: 'rgb(38, 75, 119)'}}></View>
+          <View style={{...styles.headingBottom, backgroundColor: 'rgb(60, 91, 116)'}}></View>
+          <View style={{...styles.headingBottom, backgroundColor: 'rgb(163, 172, 177)'}}></View>
+        </View>
         <View style={styles.inputCont}>
           <TextInput 
             style={styles.textInput} 
@@ -115,8 +121,15 @@ const styles = StyleSheet.create({
 
   titleText: {
     fontSize: 50,
-    color: 'gray',
+    color: 'black',
     fontFamily: 'monospace',
+  },
+
+  headingBottom: {
+    width: 49, 
+    height: 12,
+    margin: 3,
+    borderRadius: 50
   },
 
   inputCont: {
